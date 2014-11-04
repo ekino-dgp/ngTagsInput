@@ -51,10 +51,10 @@ tagsInput.directive('tagsInput', function($timeout, $document, tagsInputConfig) 
             var tagText = getTagText(tag);
 
             return tagText &&
-                   tagText.length >= options.minLength &&
-                   tagText.length <= options.maxLength &&
-                   options.allowedTagsPattern.test(tagText) &&
-                   !findInObjectArray(self.items, tag, options.displayProperty);
+                tagText.length >= options.minLength &&
+                tagText.length <= options.maxLength &&
+                options.allowedTagsPattern.test(tagText) &&
+                !findInObjectArray(self.items, tag, options.displayProperty);
         };
 
         self.items = [];
@@ -118,7 +118,8 @@ tagsInput.directive('tagsInput', function($timeout, $document, tagsInputConfig) 
         scope: {
             tags: '=ngModel',
             onTagAdded: '&',
-            onTagRemoved: '&'
+            onTagRemoved: '&',
+            onTagInput: '&'
         },
         replace: false,
         transclude: true,
@@ -198,6 +199,8 @@ tagsInput.directive('tagsInput', function($timeout, $document, tagsInputConfig) 
                 .on('tag-removed', scope.onTagRemoved)
                 .on('tag-added', function() {
                     scope.newTag.text = '';
+                    scope.onTagInput({data:''});
+                    ngModelCtrl._leftoverText = '';
                 })
                 .on('tag-added tag-removed', function() {
                     ngModelCtrl.$setViewValue(scope.tags);
@@ -208,6 +211,8 @@ tagsInput.directive('tagsInput', function($timeout, $document, tagsInputConfig) 
                 .on('input-change', function() {
                     tagList.selected = null;
                     scope.newTag.invalid = null;
+                    scope.onTagInput({data:scope.newTag.text});
+                    ngModelCtrl._leftoverText = scope.newTag.text;
                 })
                 .on('input-focus', function() {
                     ngModelCtrl.$setValidity('leftoverText', true);
@@ -228,6 +233,7 @@ tagsInput.directive('tagsInput', function($timeout, $document, tagsInputConfig) 
                 });
 
             scope.newTag = { text: '', invalid: null };
+            ngModelCtrl._leftoverText = '';
 
             scope.getDisplayText = function(tag) {
                 return safeToString(tag[options.displayProperty]);
