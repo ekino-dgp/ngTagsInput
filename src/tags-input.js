@@ -207,14 +207,17 @@ tagsInput.directive('tagsInput', function($timeout, $document, tagsInputConfig) 
                 })
                 .on('invalid-tag', function() {
                     scope.newTag.invalid = true;
+                    setElementValidity();
                 })
                 .on('input-change', function() {
                     tagList.selected = null;
                     scope.newTag.invalid = null;
+                    ngModelCtrl.$setValidity('leftoverText', true);
                     scope.onTagInput({data:scope.newTag.text});
                     ngModelCtrl._leftoverText = scope.newTag.text;
                 })
                 .on('input-focus', function() {
+                    scope.newTag.invalid = null;
                     ngModelCtrl.$setValidity('leftoverText', true);
                 })
                 .on('input-blur', function() {
