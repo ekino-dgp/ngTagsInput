@@ -199,7 +199,7 @@ describe('tags-input directive', function() {
 
             // Act
             newTag('foo');
-            newTag('Foo');
+            newTag('foo');
 
             // Assert
             expect($scope.tags).toEqual([{ text: 'foo' }]);
@@ -211,7 +211,7 @@ describe('tags-input directive', function() {
 
             // Act
             newTag('foo');
-            newTag('Foo');
+            newTag('foo');
 
             // Assert
             expect(getInput()).toHaveClass('invalid-tag');
@@ -1051,7 +1051,7 @@ describe('tags-input directive', function() {
             // Arrange
             compileWithForm('allow-leftover-text="false"', 'name="tags"');
             newTag('foo');
-            newTag('Foo');
+            newTag('foo');
 
             // Act
             isolateScope.events.trigger('input-blur');
@@ -1094,7 +1094,7 @@ describe('tags-input directive', function() {
             // Arrange
             compileWithForm('allow-leftover-text="true"', 'name="tags"');
             newTag('foo');
-            newTag('Foo');
+            newTag('foo');
             isolateScope.events.trigger('input-blur');
 
             // Act

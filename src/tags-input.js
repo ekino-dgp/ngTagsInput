@@ -54,7 +54,11 @@ tagsInput.directive('tagsInput', function($timeout, $document, tagsInputConfig) 
                 tagText.length >= options.minLength &&
                 tagText.length <= options.maxLength &&
                 options.allowedTagsPattern.test(tagText) &&
-                !findInObjectArray(self.items, tag, options.displayProperty);
+                !self.tagAlreadyAdded(tag);
+        };
+
+        self.tagAlreadyAdded = function(tag) {
+            return findInObjectArray(self.items, tag, options.displayProperty) !== null;
         };
 
         self.items = [];
@@ -192,6 +196,7 @@ tagsInput.directive('tagsInput', function($timeout, $document, tagsInputConfig) 
                 ngModelCtrl.$setValidity('maxTags', scope.tags.length <= options.maxTags);
                 ngModelCtrl.$setValidity('minTags', scope.tags.length >= options.minTags);
                 ngModelCtrl.$setValidity('leftoverText', options.allowLeftoverText ? true : !scope.newTag.text);
+                ngModelCtrl.$setValidity('alreadyAdded', scope.newTag.text !== '' ? !tagList.tagAlreadyAdded(scope.newTag) : true);
             };
 
             events

@@ -35,9 +35,7 @@ function makeObjectArray(array, key) {
 function findInObjectArray(array, obj, key) {
     var item = null;
     for (var i = 0; i < array.length; i++) {
-        // I'm aware of the internationalization issues regarding toLowerCase()
-        // but I couldn't come up with a better solution right now
-        if (safeToString(array[i][key]).toLowerCase() === safeToString(obj[key]).toLowerCase()) {
+        if (safeToString(array[i][key]) === safeToString(obj[key])) {
             item = array[i];
             break;
         }
